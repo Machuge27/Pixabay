@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/pixabay_provider.dart';
 import '../components/image_card.dart';
+import '../components/image_viewer.dart';
 
 class GalleryPage extends ConsumerStatefulWidget {
   const GalleryPage({super.key});
@@ -202,26 +203,8 @@ class _GalleryPageState extends ConsumerState<GalleryPage> {
                     ),
                   );
                 }
-                return GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        MediaQuery.of(context).size.width > 1200
-                            ? 5
-                            : MediaQuery.of(context).size.width > 800
-                            ? 3
-                            : 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 0.75,
-                  ),
-                  itemCount: images.length,
-                  itemBuilder:
-                      (context, index) => ImageCard(
-                        image: images[index],
-                        isCompact: MediaQuery.of(context).size.width <= 800,
-                      ),
-                );
+                final isMobile = MediaQuery.of(context).size.width < 700;
+                return isMobile ? _buildListView(images) : _buildGridView(images);
               },
               loading:
                   () => const Center(
@@ -263,6 +246,76 @@ class _GalleryPageState extends ConsumerState<GalleryPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildGridView(List images) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: MediaQuery.of(context).size.width > 1200 ? 5 :
+                       MediaQuery.of(context).size.width > 800 ? 3 : 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 0.75,
+      ),
+      itemCount: images.length,
+      itemBuilder: (context, index) => ImageCard(image: images[index]),
+    );
+  }
+
+  Widget _buildListView(List images) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: images.length,
+      itemBuilder: (context, index) {
+        final image = images[index];
+        return Card(
+          margin: const EdgeInsets.only(bottom: 12),
+          child: ListTile(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => ImageViewer(image: image),
+            ),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                image.previewURL,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error),
+              ),
+            ),
+            title: Text(
+              image.tags,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text('By ${image.user}'),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.favorite, size: 16, color: Colors.red),
+                    Text(' ${image.likes}'),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.visibility, size: 16),
+                    Text(' ${image.views}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
