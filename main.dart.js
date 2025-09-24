@@ -1026,7 +1026,7 @@ var $async$WX=A.M(function(b,c){if(b===1)return A.N(c,r)
 while(true)switch(s){case 0:n={}
 l=t.Lk
 s=3
-return A.T(A.qD(a.AU("Pixabay/FontManifest.json")),$async$WX)
+return A.T(A.qD(a.AU("Pixabay//FontManifest.json")),$async$WX)
 case 3:m=l.a(c)
 if(!m.gzt()){$.e6().$1("Font manifest does not exist at `"+m.a+"` - ignoring.")
 q=new A.y3(A.b([],t.z8))
