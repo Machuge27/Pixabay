@@ -159,7 +159,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
                           ),
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Full name is required'),
@@ -179,7 +178,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
                           ),
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Email is required'),
@@ -203,7 +201,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
                           ),
                           validator: MultiValidator([
                             RequiredValidator(errorText: 'Password is required'),
@@ -224,10 +221,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius:  BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -251,7 +247,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
                           ),
                           items: _categories.map((category) {
                             return DropdownMenuItem(

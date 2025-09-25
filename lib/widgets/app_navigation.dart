@@ -37,16 +37,16 @@ class AppNavigation extends StatelessWidget {
                 colors: [Colors.deepPurple, Colors.deepPurpleAccent],
               ),
             ),
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.photo_library, size: 48, color: Colors.white),
-                SizedBox(height: 8),
+                Icon(Icons.photo_library, size: 32, color: Colors.white),
+                SizedBox(width: 12),
                 Text(
-                  'Pixabay Web',
+                  'Pixabay',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -56,18 +56,69 @@ class AppNavigation extends StatelessWidget {
           ...destinations.asMap().entries.map((entry) {
             final index = entry.key;
             final destination = entry.value;
-            return ListTile(
-              title: Row(
-                children: [
-                  destination.icon,
-                  const SizedBox(width: 16),
-                  Text(destination.label),
-                ],
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color:
+                    selectedIndex == index
+                        ? Theme.of(context).primaryColor.withOpacity(0.15)
+                        : Colors.transparent,
               ),
-              selected: selectedIndex == index,
-              onTap: () => onDestinationSelected(index),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () => onDestinationSelected(index),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        (destination.icon as Icon).icon,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        destination.label,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight:
+                              selectedIndex == index
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           }),
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info_outline, color: Colors.white70, size: 16),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Version 1.0.0',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       );
     }
